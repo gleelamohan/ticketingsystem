@@ -15,26 +15,16 @@ const constructQuery = (client, sql) => {
   return client.query(sql);
 };
 
-const parseMessages = (res) => {
-  if (res.rowCount === 0) {
-    return [];
-  }
-  assert(res);
-  return res.rows.map((row) => {
-    return {
-      message: row.message,
-      source: row.source
-    };
-  });
-};
+
 
 const fetchMessages = () => {
   const selectMessages = `Select Id, TicketNumber,Subject,Description,Status, CustomerName,ExternalId from cases`;
 
+  console.log(selectMessages);
   // Prevent SQL injection using parametrized queries
   return pool.connect()
     .then((client) => {
-
+      console.log(client);
       return constructQuery(client, selectMessages)
         .then((res) => {
           console.log('******** SUCCESS ************');
@@ -47,12 +37,12 @@ const fetchMessages = () => {
         .catch((err) => {
           client.release();
           // eslint-disable-next-line no-console
-          console.error(err.stack);
+          console.log(err.stack);
         });
     });
 };
 
-const insertMessage = (message) => {
+/*const insertMessage = (message) => {
 
   console.log(message);
 
@@ -70,9 +60,8 @@ const insertMessage = (message) => {
 
       });
     });
-};
+};*/
 
 module.exports = {
-  fetchMessages,
-  insertMessage
+  fetchMessages
 };

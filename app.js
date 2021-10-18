@@ -10,7 +10,9 @@ const {
 const connectionString = 'postgres://kizzscuwlypsds:975cd2db81d87998b1e0c2b9160e96de27a33948bf165bfad23522e3942db793@ec2-52-6-29-180.compute-1.amazonaws.com:5432/deeur13jtk9q5e';
 const client = new Client({
 	connectionString: connectionString,
-	ssl: false
+	ssl: {
+		rejectUnauthorized: false,
+	},
 });
 client.connect();
 
@@ -38,8 +40,10 @@ app.get('/result', function (req, res) {
 		if (err) {
 			console.log(err);
 			res.status(400).send(err);
+
 		}
-		res.status(200).send(result.rows);
+		res.status(200).json(result.rows);
+
 	});
 
 });

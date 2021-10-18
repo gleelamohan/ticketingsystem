@@ -21,6 +21,7 @@ app.get('/', function (req, res) {
 });
 
 app.get('/result', function (req, res) {
+	console.log('Entered');
 	res.json(fetchMessages());
 });
 app.get('/nosupport', function (req, res) {

@@ -39,7 +39,7 @@ const fetchMessages = () => {
         .then((res) => {
           client.release();
 
-          return parseMessages(res);
+          return res;
         })
         .catch((err) => {
           client.release();

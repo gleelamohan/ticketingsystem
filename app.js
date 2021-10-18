@@ -25,13 +25,7 @@ app.use(express.static(__dirname + '/public')); // Serve static files
 
 
 app.get('/', function (req, res) {
-	client.query('SELECT * FROM cases', function (err, result) {
-		if (err) {
-			console.log(err);
-			res.status(400).send(err);
-		}
-		res.status(200).send(result.rows);
-	});
+	res.sendFile(path.join(__dirname + '/index.html'));
 });
 
 app.get('/result', function (req, res) {

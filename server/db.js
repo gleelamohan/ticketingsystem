@@ -37,7 +37,10 @@ const fetchMessages = () => {
 
       return constructQuery(client, selectMessages)
         .then((res) => {
+          console.log('******** SUCCESS ************');
+          console.log(res);
           client.release();
+
 
           return res;
         })

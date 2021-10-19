@@ -65,9 +65,9 @@ app.get('/update', function (req, res) {
 
 app.post('/insertcomment', function (req, res) {
 
-	let tno = req.query.Id;
-	let comment = req.query.comment;
-	let uname = req.query.uname;
+	let tno = req.body.Id;
+	let comment = req.body.comment;
+	let uname = req.body.uname;
 
 	client.query(`INSERT INTO COMMENTS (TicketNumber,Comment,UserName) VALUES (${tno},${comment},${uname})`, function (err, result) {
 		if (err) {

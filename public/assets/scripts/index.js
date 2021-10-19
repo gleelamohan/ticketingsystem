@@ -27,16 +27,19 @@ $(document).ready(function () {
         $("#updatestatus").on("click", function () {
 
             var request = $.ajax({
-                url: "https://sdo-demo-main-16109844f55-16-17a51cea05a.secure.force.com/ticketservices/services/apexrest/Case/",
-                type: "POST",
+                url: "/update",
+                type: "GET",
                 data: {
-                    "Id": selectedId,
-                    "Status": $(".form-select").val()
-                }
+                    'Id': selectedId,
+                    'Status': $(".form-select").val()
+                },
+                dataType: 'json'
             });
 
             request.done(function (msg) {
                 alert(msg);
+                init();
+                $('#exampleModal').modal('hide');
             });
 
             request.fail(function (jqXHR, textStatus) {
@@ -47,17 +50,19 @@ $(document).ready(function () {
                     msg = 'Requested page not found. [404]';
                 } else if (jqXHR.status == 500) {
                     msg = 'Internal Server Error [500].';
-                } else if (exception === 'parsererror') {
+                } else if (jqXHR.exception === 'parsererror') {
                     msg = 'Requested JSON parse failed.';
-                } else if (exception === 'timeout') {
+                } else if (jqXHR.exception === 'timeout') {
                     msg = 'Time out error.';
-                } else if (exception === 'abort') {
+                } else if (jqXHR.exception === 'abort') {
                     msg = 'Ajax request aborted.';
                 } else {
                     msg = 'Uncaught Error.\n' + jqXHR.responseText;
                 }
 
                 alert(msg);
+                init();
+                $('#exampleModal').modal('hide');
             });
 
 
@@ -65,30 +70,33 @@ $(document).ready(function () {
 
     }
 
-    $.ajax("/result", {
-        success: function (data, status, xhr) {
+    function init() {
+        $.ajax("/result", {
+            success: function (data, status, xhr) {
 
-            console.log(data);
+                console.log(data);
 
-            objArray = data;
+                objArray = data;
 
-            let strTd = '';
+                let strTd = '';
 
-            $.each(data, function (index, item) {
-                strTd = strTd + `<tr id=${item.externalid} class="tr-class" >
+                $.each(data, function (index, item) {
+                    strTd = strTd + `<tr id=${item.externalid} class="tr-class" >
                 <td><a href="#">${item.ticketnumber}</a></td>
                 <td>${item.subject}</td>
                 <td>${item.customername}</td>
                 <td>${item.status}</td>
             </tr>`
 
-            });
+                });
 
-            $("#td-append").html('').append(strTd);
+                $("#td-append").html('').append(strTd);
 
-            loadFns();
-        }
-    });
+                loadFns();
+            }
+        });
+    }
 
 
+    init();
 });

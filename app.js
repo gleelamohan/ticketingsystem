@@ -63,7 +63,7 @@ app.get('/update', function (req, res) {
 });
 
 
-app.post('/insertcomment', function (req, res) {
+/*app.post('/insertcomment', function (req, res) {
 
 	let tno = req.body.Id;
 	let comment = req.body.comment;
@@ -80,7 +80,7 @@ app.post('/insertcomment', function (req, res) {
 	});
 
 
-});
+});*/
 
 app.get('/result', function (req, res) {
 

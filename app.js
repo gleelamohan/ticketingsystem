@@ -63,13 +63,18 @@ app.get('/update', function (req, res) {
 });
 
 
-/*app.post('/insertcomment', function (req, res) {
+app.post('/insertcomment', function (req, res) {
 
 	let tno = req.body.Id;
 	let comment = req.body.comment;
 	let uname = req.body.uname;
 
-	client.query(`INSERT INTO COMMENTS (TicketNumber,Comment,UserName) VALUES (${tno},${comment},${uname})`, function (err, result) {
+	console.log(tno);
+	console.log(comment);
+	console.log(uname);
+
+	//console.log(`INSERT INTO COMMENTS (TicketNumber,Comment,UserName) VALUES (${tno},${comment},${uname})`);
+	client.query(`INSERT INTO COMMENTS (TicketNumber,Comment,UserName) VALUES ('${tno}','${comment}','${uname}')`, function (err, result) {
 		if (err) {
 			console.log(err);
 			res.status(400).send(err);
@@ -79,12 +84,12 @@ app.get('/update', function (req, res) {
 
 	});
 
-
-});*/
+	res.status(200).send('Success');
+});
 
 app.get('/result', function (req, res) {
 
-	client.query('SELECT * FROM CASES', function (err, result) {
+	client.query('SELECT * FROM CASES order by id desc', function (err, result) {
 		if (err) {
 			console.log(err);
 			res.status(400).send(err);

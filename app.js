@@ -63,7 +63,7 @@ app.get('/update', function (req, res) {
 });
 
 
-app.get('/insertcomment', function (req, res) {
+app.post('/insertcomment', function (req, res) {
 
 	let tno = req.query.Id;
 	let comment = req.query.comment;

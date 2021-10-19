@@ -1,6 +1,7 @@
 $(document).ready(function () {
 
     let objArray = [];
+    let selectedId;
 
     function loadFns() {
 
@@ -10,6 +11,8 @@ $(document).ready(function () {
 
             var obj = objArray.filter(x => x.externalid === selectedElement);
 
+            selectedId = obj[0].externalid;
+
             $(".subject").html('').append(obj[0].subject);
             $("#tno").html('').append(obj[0].ticketnumber);
             $("#status").html('').append(obj[0].status);
@@ -17,6 +20,46 @@ $(document).ready(function () {
             $("#description").html('').append(obj[0].description);
             $(".form-select").val(obj[0].status);
             $('#exampleModal').modal('show');
+
+        });
+
+
+        $("#updatestatus").on("click", function () {
+
+            var request = $.ajax({
+                url: "https://sdo-demo-main-16109844f55-16-17a51cea05a.secure.force.com/ticketservices/services/apexrest/Case/",
+                type: "POST",
+                data: {
+                    "Id": selectedId,
+                    "Status": $(".form-select").val()
+                }
+            });
+
+            request.done(function (msg) {
+                alert(msg);
+            });
+
+            request.fail(function (jqXHR, textStatus) {
+                //alert("Request failed: " + textStatus);
+                if (jqXHR.status === 0) {
+                    msg = 'Not connect.\n Verify Network.';
+                } else if (jqXHR.status == 404) {
+                    msg = 'Requested page not found. [404]';
+                } else if (jqXHR.status == 500) {
+                    msg = 'Internal Server Error [500].';
+                } else if (exception === 'parsererror') {
+                    msg = 'Requested JSON parse failed.';
+                } else if (exception === 'timeout') {
+                    msg = 'Time out error.';
+                } else if (exception === 'abort') {
+                    msg = 'Ajax request aborted.';
+                } else {
+                    msg = 'Uncaught Error.\n' + jqXHR.responseText;
+                }
+
+                alert(msg);
+            });
+
 
         });
 
